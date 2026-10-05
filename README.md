@@ -1,5 +1,7 @@
 # dsh-plugin-agnes-media
 
+**中文** | [English](README.en.md)
+
 给 DeepSeek Harness (dsh) 接入 **Agnes AI 的图片模型和视频模型**，以四个宿主侧工具的形式暴露给 Agent。
 
 - 图片：`agnes-image-2.5-flash` — 文生图、图生图、多图合成

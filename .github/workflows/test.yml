@@ -1,0 +1,41 @@
+# Deterministic tests only.
+#
+# `test/video-mock.mjs` replaces fetch with a scripted transport, so it needs no
+# network, no API key and no DSH profile — which is exactly why it is the test
+# that runs here. `test/verify-live.mjs` exercises the real Agnes API and needs a
+# credential, so it stays a manual step.
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Mirrors the engines range in package.json.
+        node: ['22.19', '24']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Report runtime
+        run: node --version
+
+      - name: Tool surface
+        run: node test/tools.mjs
+
+      - name: Video path (deterministic)
+        run: node test/video-mock.mjs

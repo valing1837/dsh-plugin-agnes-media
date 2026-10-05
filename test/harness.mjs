@@ -44,8 +44,42 @@ function installStubs(root) {
     writeFileSync(join(dir, 'index.js'), source)
   }
 
-  // defineTool is a typed identity helper in the real package.
-  write('dsh-tools', 'export const defineTool = (definition) => definition\n')
+  // defineTool normalizes the author-facing parameter property map into an
+  // object-rooted JSON Schema (pulling `required: true` entries into a
+  // `required` array) and rejects a call whose required arguments are absent.
+  // Mirroring both keeps the tests honest about what the real definition does,
+  // instead of only checking the shape the source declares.
+  write(
+    'dsh-tools',
+    [
+      'export const defineTool = (options) => {',
+      '  const properties = {}',
+      '  const required = []',
+      '  for (const [key, spec] of Object.entries(options.parameters ?? {})) {',
+      '    const { required: isRequired, ...rest } = spec',
+      '    properties[key] = rest',
+      '    if (isRequired === true) required.push(key)',
+      '  }',
+      '  return {',
+      '    ...options,',
+      '    parameters: {',
+      "      type: 'object',",
+      '      properties,',
+      '      ...(required.length > 0 ? { required } : {}),',
+      '    },',
+      '    async execute(args, exec) {',
+      '      for (const key of required) {',
+      '        if (args == null || args[key] === undefined) {',
+      '          throw new Error(`invalid arguments: ${key} is required`)',
+      '        }',
+      '      }',
+      '      return options.execute(args, exec)',
+      '    },',
+      '  }',
+      '}',
+      '',
+    ].join('\n'),
+  )
 
   // credentialRef just brands the reference name.
   write('dsh-credentials', 'export const credentialRef = (name) => ({ ref: name })\n')
