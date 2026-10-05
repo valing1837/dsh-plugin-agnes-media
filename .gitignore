@@ -1,0 +1,5 @@
+node_modules/
+agnes-media/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,49 @@
+{
+  "name": "dsh-plugin-agnes-media",
+  "version": "0.1.0",
+  "description": "Agnes AI image and video generation for DeepSeek Harness: text-to-image, image-to-image, multi-image composition and asynchronous video tasks over the Agnes AI gateway. The API key resolves from the DSH credentials domain, never from the plugin source.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "agnes",
+    "image-generation",
+    "video-generation",
+    "text-to-image",
+    "text-to-video"
+  ],
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "scripts",
+    "test",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-credentials": ">=0.2.0-rc.2",
+    "@deepseek-ai/dsh-tools": ">=0.2.0-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "license": "MIT",
+  "author": "valing1837",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valing1837/dsh-plugin-agnes-media.git"
+  },
+  "bugs": {
+    "url": "https://github.com/valing1837/dsh-plugin-agnes-media/issues"
+  },
+  "homepage": "https://github.com/valing1837/dsh-plugin-agnes-media#readme"
+}

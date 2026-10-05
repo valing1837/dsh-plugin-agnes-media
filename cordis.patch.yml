@@ -1,0 +1,6 @@
+# dsh-plugin-agnes-media bundle layer: mounts this plugin as a row in the
+# composed profile tree. The row id is what later layers (the profile patch)
+# target to override config or disable the plugin.
+- insert:
+    - id: agnes-media
+      name: dsh-plugin-agnes-media
